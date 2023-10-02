@@ -15,6 +15,7 @@ def create_directory_and_files(cwd, path_list, files=None):
         if not os.path.exists(os.path.join(cwd,file)):
             # Opens files exclusively for creating them, fails if it exists
             f = open(os.path.join(cwd,file), "x")
+            f.close()
             print('Creating a file:', file, 'in the directory:', cwd)
 
 
