@@ -32,3 +32,6 @@ Project/
 |-- setup.py
 
 |-- README
+
+
+Supports an arbitrary amounts of command line parameters and a confirmation skipper flag (-y, --yes) in case you want to create a bunch of templates fast e.g. with a script. A confirmation prompt has been added to aid the people typing by hand and willing to risk committing typing errors. It uses argparse, so you get a syntax guideline show if you use the -h flag or type invalid commands.
