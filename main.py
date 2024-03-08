@@ -21,17 +21,45 @@ def create_directory_and_files(cwd, path_list, files=None):
             f.close()
             print('Creating a file:', file, 'in the directory:', cwd)
 
+# Extending the help parameters in crude way, copied from the prompt manually
+
+def print_extra_help():
+    tmp = '''usage: main.py [-h] [/?] [-y] [strings [strings ...]]
+
+Directory name parser
+
+positional arguments:
+  strings
+
+optional arguments:
+  -h, --help  show this help message and exit
+  /?, +help   show this help message and exit
+  -y, --yes   Skips the name confirmation prompt, useful in scripts and
+              automated runs
+
+END OF HELP'''
+    print(tmp)
+
+custom_help = None
 
 # Parse directory name parameters and the possible confirmation-skipping flag
 
-parser = argparse.ArgumentParser("Directory name parser")
+# add_help parameter is disabled to combine it with the /? flag that is standard stuff in MS-DOS environments that people might expect to work here
+parser = argparse.ArgumentParser(prog=os.path.basename(sys.argv[0]), description="Directory name parser", epilog="END OF HELP", prefix_chars='+-/', add_help=True)
+
 parser.add_argument("strings", metavar="strings", nargs='*', type=str)
+parser.add_argument("/?", "+help", dest="custom_help", help='show this help message and exit', default=None, action='store_true')
 parser.add_argument("-y", "--yes", dest="skip_flag", help="Skips the name confirmation prompt, useful in scripts and automated runs", default=None, action="store_true")
+
 
 args = parser.parse_args()
 
-#print(args.strings, args.skip_flag) # DEBUG
-#sys.exit() # DEBUG
+if args.custom_help:
+    print_extra_help()
+    sys.exit(0)
+
+# print(args.strings, args.skip_flag, args.custom_help) # DEBUG
+# sys.exit() # DEBUG
 
 template_name = []
 
